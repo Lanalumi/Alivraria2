@@ -1,0 +1,137 @@
+classDiagram
+    class TipoForum {
+        +int IdTipoForum [PK]
+        +string Tipo
+    }
+    
+    class Autor {
+        +int IdAutor [PK]
+        +string Nome
+        +string Sobre
+        +string Genero
+    }
+    
+    class ForumExclusivo {
+        +int IdForumExclusivo [PK]
+        +string Titulo
+        +string Descricao
+        +string Genero
+        +datetime DataCriacao
+        +int IdAssinatura [FK]
+        +int IdAutor [FK]
+        +int IdTipoForum [FK]
+    }
+    
+    class Forum {
+        +int IdForum [PK]
+        +string Nome
+        +string Descricao
+        +string Genero
+        +string Obra
+        +int IdTipoForum [FK]
+    }
+    
+    class Assinatura {
+        +int IdAssinatura [PK]
+        +string Nome
+        +string Descricao
+    }
+    
+    class Cupom {
+        +int IdCupom [PK]
+        +decimal Desconto
+        +datetime DataCriacao
+        +datetime DataValidade
+        +int IdAssinatura [FK]
+    }
+    
+    class Evento {
+        +int IdEvento [PK]
+        +string Nome
+        +string Descricao
+        +date DataEvento
+    }
+    
+    class UsuariosAssinantes {
+        +int IdAssinatura [FK]
+        +int IdUsuario [FK]
+        +int TotalAssinantes
+    }
+    
+    class ConviteEvento {
+        +date DataEnvio
+        +date DataEvento
+        +string Informacoes
+        +int IdEvento [FK]
+        +int IdAssinatura [FK]
+    }
+    
+    class Usuario {
+        +int IdUsuario [PK]
+        +string Nome
+        +string Sobre
+        +datetime DataCadastro
+        +string TempoCadastro
+        +int IdEvento [FK]
+    }
+    
+    class ForumParticipantes {
+        +int IdTipoForum [FK]
+        +int IdUsuario [FK]
+        +int IdForum [FK]
+        +datetime DataEntrada
+        +datetime UltimaInteracao
+    }
+    
+    class ForumExclusivoParticipantes {
+        +int IdTipoForum [FK]
+        +int IdAssinatura [FK]
+        +int IdForumExclusivo [FK]
+        +datetime DataEntrada
+        +datetime UltimaInteracao
+    }
+    
+    class Favoritos {
+        +int IdFavoritos [PK]
+        +int IdUsuario [FK]
+    }
+    
+    class Inscricao {
+        +date DataInscricao
+        +decimal ValorPago
+        +int IdEvento [FK]
+        +int IdUsuario [FK]
+    }
+    
+    class Livro {
+        +int IdLivro [PK]
+        +string Nome
+        +string Sinopse
+        +date DataLancamento
+        +string Genero
+        +int IdAutor [FK]
+        +int IdFavoritos [FK]
+    }
+    
+    %% Relacionamentos
+    TipoForum "1" --> "*" Autor : classifica
+    TipoForum "1" --> "*" ForumExclusivo : classifica
+    TipoForum "1" --> "*" Forum : tipo
+    TipoForum "1" --> "*" ForumParticipantes : classifica
+    TipoForum "1" --> "*" ForumExclusivoParticipantes : classifica
+    Autor "1" --> "*" ForumExclusivo : cria
+    Autor "1" --> "*" Livro : escreve
+    Assinatura "1" --> "*" ForumExclusivo : habilita
+    Assinatura "1" --> "*" UsuariosAssinantes : relaciona
+    Assinatura "1" --> "*" Cupom : permite
+    Assinatura "1" --> "*" ConviteEvento : oferece
+    Assinatura "1" --> "*" ForumExclusivoParticipantes : tem
+    Evento "1" --> "*" ConviteEvento : possui
+    Evento "1" --> "*" Inscricao : recebe
+    Usuario "1" --> "*" UsuariosAssinantes : assina
+    Usuario "1" --> "*" ForumParticipantes : participa
+    Usuario "1" --> "*" Favoritos : possui
+    Usuario "1" --> "*" Inscricao : realiza
+    Forum "1" --> "*" ForumParticipantes : possui
+    ForumExclusivo "1" --> "*" ForumExclusivoParticipantes : tem
+    Favoritos "1" --> "*" Livro : contem

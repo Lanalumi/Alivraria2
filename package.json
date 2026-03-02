@@ -31,6 +31,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^11.12.0"
   }
 }
-
